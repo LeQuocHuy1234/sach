@@ -8,42 +8,62 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
+import HomeScreen from './component/HomeScreen';
+import ListCategoryScreen from './component/Category/ListCategoryScreen';
+import { createStackNavigator, createAppContainer, createBottomTabNavigator, createDrawerNavigator } from "react-navigation";
+import BookScreen from './component/Book/BookScreen';
+import DetailBookScreen from './component/Book/DetailBookScreen';
+import ListBookScreen from './component/Book/ListBookScreen';
+import FavoriteStoryScreen from './component/FavoriteStoryScreen';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-type Props = {};
-export default class App extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
-    );
+const StackHomeNavigator = createStackNavigator({
+  Home: {
+    screen: HomeScreen
+  },
+  Book: {
+    screen: BookScreen
+  },
+  DetailBook: {
+    screen: DetailBookScreen
   }
-}
+});
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+const StackCategoryNavigator = createStackNavigator({
+  ListCategory: {
+    screen: ListCategoryScreen
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  Book: {
+    screen: BookScreen
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  ListBook: {
+    screen: ListBookScreen
+  },
+  DetailBook: {
+    screen: DetailBookScreen
   },
 });
+
+const TabBarNavigator = createBottomTabNavigator({
+  HomeTab: {
+    screen: StackHomeNavigator
+  },
+  ListCategory: {
+    screen:StackCategoryNavigator
+  },
+  FavoriteStory: {
+    screen: FavoriteStoryScreen
+  }
+})
+
+const DrawerNavigator = createDrawerNavigator({
+  TabNavagator: TabBarNavigator,
+  ListCategory: {
+    screen:ListCategoryScreen
+  },
+  FavoriteStory: {
+    screen: FavoriteStoryScreen
+  }
+})
+
+export default createAppContainer(DrawerNavigator);
+
